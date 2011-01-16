@@ -3,7 +3,7 @@
 Summary:	Gtk+ git repository viewer
 Name:		gitg
 Version:	0.1.0
-Release:	0.1
+Release:	0.2
 License:	GPL v2
 Group:		Development/Tools
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/0.1/%{name}-%{version}.tar.bz2
@@ -14,7 +14,7 @@ BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1:1.8
 BuildRequires:	gettext-devel >= 0.17
 BuildRequires:	glib2-devel >= 1:2.26.0
-BuildRequires:	gsettings-desktop-schemas
+BuildRequires:	gsettings-desktop-schemas-devel
 BuildRequires:	intltool >= 0.40.0
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
@@ -29,7 +29,7 @@ BuildRequires:	gtk+2-devel >= 2:2.21.0
 BuildRequires:	gtksourceview2-devel >= 2.8.0
 %endif
 Requires(post,postun):	desktop-file-utils
-Requires(post,postun):	gtk-update-icon-cache
+Requires(post,postun):	/usr/bin/gtk-update-icon-cache
 Requires(post,preun):	GConf2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
