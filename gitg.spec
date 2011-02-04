@@ -29,7 +29,7 @@ BuildRequires:	gtk+2-devel >= 2:2.21.0
 BuildRequires:	gtksourceview2-devel >= 2.8.0
 %endif
 Requires(post,postun):	desktop-file-utils
-Requires(post,postun):	/usr/bin/gtk-update-icon-cache
+Requires(post,postun):	gtk-update-icon-cache
 Requires(post,preun):	GConf2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
