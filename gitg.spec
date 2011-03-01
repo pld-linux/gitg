@@ -1,13 +1,11 @@
-%bcond_with	gtk3 # build gtk3 version
-#
 Summary:	Gtk+ git repository viewer
 Name:		gitg
-Version:	0.1.0
-Release:	0.2
+Version:	0.2.0
+Release:	0.1
 License:	GPL v2
 Group:		Development/Tools
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/0.1/%{name}-%{version}.tar.bz2
-# Source0-md5:	052fbb7ad4c62c546e8f3206510ebb0f
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/0.2/%{name}-%{version}.tar.bz2
+# Source0-md5:	6d2b78d7686a84b52d7316c5eedf3ba1
 URL:		http://trac.novowork.com/gitg/
 BuildRequires:	GConf2-devel >= 2.24.0
 BuildRequires:	autoconf >= 2.59
@@ -21,23 +19,12 @@ BuildRequires:	pkgconfig
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.596
-%if %{with gtk3}
-BuildRequires:	gtk+3-devel >= 2.91.7
+BuildRequires:	gtk+3-devel >= 3.0.0
 BuildRequires:	gtksourceview3-devel >= 2.90.0
-%else
-BuildRequires:	gtk+2-devel >= 2:2.21.0
-BuildRequires:	gtksourceview2-devel >= 2.8.0
-%endif
 Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	gtk-update-icon-cache
 Requires(post,preun):	GConf2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%if %{with gtk3}
-%define gtk_ver 3.0
-%else
-%define gtk_ver 2.0
-%endif
 
 %description
 gitg is a git repository viewer targeting gtk+/GNOME. One of its main
@@ -79,7 +66,6 @@ Biblioteki statyczne libgitg
 %{__autoheader}
 %{__automake}
 %configure \
-	--with-gtk=%{gtk_ver} \
 	--disable-silent-rules
 %{__make}
 
