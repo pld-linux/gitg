@@ -1,11 +1,11 @@
 Summary:	Gtk+ git repository viewer
 Name:		gitg
-Version:	0.2.0
+Version:	0.2.5
 Release:	0.1
 License:	GPL v2
 Group:		Development/Tools
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/0.2/%{name}-%{version}.tar.bz2
-# Source0-md5:	6d2b78d7686a84b52d7316c5eedf3ba1
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/0.2/%{name}-%{version}.tar.xz
+# Source0-md5:	1a1dad94d22946cefe08c98236621442
 URL:		http://trac.novowork.com/gitg/
 BuildRequires:	GConf2-devel >= 2.24.0
 BuildRequires:	autoconf >= 2.59
@@ -20,7 +20,9 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.596
 BuildRequires:	gtk+3-devel >= 3.0.0
-BuildRequires:	gtksourceview3-devel >= 2.90.0
+BuildRequires:	gtksourceview3-devel >= 3.1.3
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
 Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	gtk-update-icon-cache
 Requires(post,preun):	GConf2
