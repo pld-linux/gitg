@@ -1,61 +1,71 @@
-Summary:	Gtk+ git repository viewer
+Summary:	GTK+ git repository viewer
+Summary(pl.UTF-8):	Przeglądarka repozytoriów git oparta na GTK+
 Name:		gitg
-Version:	0.2.5
+Version:	0.2.7
 Release:	0.1
 License:	GPL v2
 Group:		Development/Tools
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/0.2/%{name}-%{version}.tar.xz
-# Source0-md5:	1a1dad94d22946cefe08c98236621442
+# Source0-md5:	54010e00f2fc6d21f121b51259f8abfe
 URL:		http://trac.novowork.com/gitg/
 BuildRequires:	GConf2-devel >= 2.24.0
-BuildRequires:	autoconf >= 2.59
-BuildRequires:	automake >= 1:1.8
+BuildRequires:	autoconf >= 2.64
+BuildRequires:	automake >= 1:1.11
 BuildRequires:	gettext-devel >= 0.17
 BuildRequires:	glib2-devel >= 1:2.26.0
 BuildRequires:	gsettings-desktop-schemas-devel
+BuildRequires:	gtk+3-devel >= 3.0.0
+BuildRequires:	gtksourceview3-devel >= 3.1.3
 BuildRequires:	intltool >= 0.40.0
-BuildRequires:	libtool
+BuildRequires:	libtool >= 2:2.2
 BuildRequires:	pkgconfig
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.596
-BuildRequires:	gtk+3-devel >= 3.0.0
-BuildRequires:	gtksourceview3-devel >= 3.1.3
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires(post,postun):	desktop-file-utils
+Requires(post,preun):	glib2 >= 1:2.26.0
 Requires(post,postun):	gtk-update-icon-cache
-Requires(post,preun):	GConf2
+Requires:	glib2 >= 1:2.26.0
+Requires:	gtksourceview3 >= 3.1.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-gitg is a git repository viewer targeting gtk+/GNOME. One of its main
+gitg is a git repository viewer targeting GTK+/GNOME. One of its main
 objectives is to provide a more unified user experience for git
 frontends across multiple desktops.
 
+%description -l pl.UTF-8
+gitg to przeglądarka repozytoriów git przeznaczona dla środowisk
+GTK+/GNOME. Jednym z głównych celów jest zapewnienie bardziej
+ujednoliconego sposobu obsługi dla frontendów gita w wielu
+środowiskach graficznych.
+
 %package devel
 Summary:	libgitg header files
-Summary(pl.UTF-8):	Pliki nagłówkowe libgitg
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libgitg
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	glib2-devel >= 1:2.26.0
 
 %description devel
 libgitg header files.
 
 %description devel -l pl.UTF-8
-Pliki nagłówkowe libgitg.
+Pliki nagłówkowe biblioteki libgitg.
 
 %package static
-Summary:	libgitg static libraries
-Summary(pl.UTF-8):	Biblioteki statyczne libgitg
+Summary:	libgitg static library
+Summary(pl.UTF-8):	Biblioteka statyczna libgitg
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
-libgitg static libraries.
+libgitg static library.
 
 %description static -l pl.UTF-8
-Biblioteki statyczne libgitg
+Biblioteka statyczna libgitg
 
 %prep
 %setup -q
@@ -98,10 +108,10 @@ fi
 
 %files -f gitg.lang
 %defattr(644,root,root,755)
-%doc README ChangeLog AUTHORS NEWS
+%doc AUTHORS ChangeLog MAINTAINERS NEWS README
 %attr(755,root,root) %{_bindir}/gitg
-%attr(755,root,root) %ghost %{_libdir}/libgitg-1.0.so.0
 %attr(755,root,root) %{_libdir}/libgitg-1.0.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libgitg-1.0.so.0
 %{_datadir}/gitg
 %{_datadir}/glib-2.0/schemas/org.gnome.gitg.gschema.xml
 %{_desktopdir}/gitg.desktop
@@ -110,7 +120,7 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
-%{_libdir}/libgitg-1.0.so
+%attr(755,root,root) %{_libdir}/libgitg-1.0.so
 %{_includedir}/libgitg-1.0
 %{_pkgconfigdir}/libgitg-1.0.pc
 
