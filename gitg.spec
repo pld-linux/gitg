@@ -146,7 +146,7 @@ API języka Vala do bibliotek Gitg.
 %{__autoheader}
 %{__automake}
 %configure \
-	%{!?with_glade:--disable-glade-catalog} \
+	%{?with_glade:--enable-glade-catalog} \
 	--disable-silent-rules \
 	%{?with_static_libs:--enable-static}
 %{__make}
