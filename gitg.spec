@@ -1,25 +1,26 @@
-# TODO: glade catalog?
 #
 # Conditional build:
 %bcond_without	static_libs	# static libraries
+%bcond_without	glade		# Glade catalog
 #
 Summary:	GTK+ git repository viewer
 Summary(pl.UTF-8):	Przeglądarka repozytoriów git oparta na GTK+
 Name:		gitg
-Version:	3.14.0
-Release:	0.1
+Version:	3.14.1
+Release:	1
 License:	GPL v2
 Group:		Development/Tools
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/3.14/%{name}-%{version}.tar.xz
-# Source0-md5:	6cfd9cf5b219379b7144f1197b1cbc7a
+# Source0-md5:	d4d7aae3cfb46cfff1c09894378ef4e0
 URL:		http://live.gnome.org/Gitg
 BuildRequires:	autoconf >= 2.64
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	gettext-devel >= 0.17
+%{?with_glade:BuildRequires:	glade-devel >= 3.2}
 BuildRequires:	glib2-devel >= 1:2.38
 BuildRequires:	gobject-introspection-devel >= 0.10.1
 BuildRequires:	gsettings-desktop-schemas-devel
-BuildRequires:	gtk+3-devel >= 3.10.0
+BuildRequires:	gtk+3-devel >= 3.12.0
 BuildRequires:	gtk-webkit3-devel >= 2.2
 BuildRequires:	gtksourceview3-devel >= 3.10
 BuildRequires:	gtkspell3-devel >= 3.0.3
@@ -28,7 +29,7 @@ BuildRequires:	json-glib-devel
 BuildRequires:	libgee-devel >= 0.8
 # libgit2 with threading support
 BuildRequires:	libgit2-devel >= 0.20.0-3
-BuildRequires:	libgit2-glib-devel >= 0.0.10
+BuildRequires:	libgit2-glib-devel >= 0.0.20
 BuildRequires:	libpeas-devel >= 1.5.0
 BuildRequires:	libpeas-gtk-devel >= 1.5.0
 BuildRequires:	libtool >= 2:2.2
@@ -45,12 +46,12 @@ Requires(post,postun):	desktop-file-utils
 Requires(post,preun):	glib2 >= 1:2.38
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	glib2 >= 1:2.38
-Requires:	gtk+3 >= 3.10.0
+Requires:	gtk+3 >= 3.12.0
 Requires:	gtk-webkit3 >= 2.2
 Requires:	gtksourceview3 >= 3.10
 Requires:	gtkspell3 >= 3.0.3
 Requires:	libgit2 >= 0.20.0-3
-Requires:	libgit2-glib >= 0.0.10
+Requires:	libgit2-glib >= 0.0.20
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -70,9 +71,9 @@ Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libgitg
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.38
-Requires:	gtk+3-devel >= 3.10.0
+Requires:	gtk+3-devel >= 3.12.0
 Requires:	libgit2-devel >= 0.20.0-3
-Requires:	libgit2-glib-devel >= 0.0.10
+Requires:	libgit2-glib-devel >= 0.0.20
 
 %description devel
 libgitg header files.
@@ -91,6 +92,19 @@ libgitg static library.
 
 %description static -l pl.UTF-8
 Biblioteka statyczna libgitg.
+
+%package glade
+Summary:	libgitg catalog file for Glade
+Summary(pl.UTF-8):	Plik katalogu libgitg dla Glade
+Group:		X11/Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+Requires:	glade >= 3.2
+
+%description glade
+libgitg catalog file for Glade.
+
+%description glade -l pl.UTF-8
+Plik katalogu libgitg dla Glade.
 
 %package -n python3-gitg
 Summary:	Python 3.x binding to GitgExt library
@@ -132,6 +146,7 @@ API języka Vala do bibliotek Gitg.
 %{__autoheader}
 %{__automake}
 %configure \
+	%{!?with_glade:--disable-glade-catalog} \
 	--disable-silent-rules \
 	%{?with_static_libs:--enable-static}
 %{__make}
@@ -204,6 +219,12 @@ fi
 %defattr(644,root,root,755)
 %{_libdir}/libgitg-1.0.a
 %{_libdir}/libgitg-ext-1.0.a
+%endif
+
+%if %{with glade}
+%files glade
+%defattr(644,root,root,755)
+%{_datadir}/glade/catalogs/gitg-glade.xml
 %endif
 
 %files -n python3-gitg
