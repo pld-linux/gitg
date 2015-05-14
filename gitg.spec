@@ -6,22 +6,22 @@
 Summary:	GTK+ git repository viewer
 Summary(pl.UTF-8):	Przeglądarka repozytoriów git oparta na GTK+
 Name:		gitg
-Version:	3.14.1
-Release:	2
+Version:	3.16.1
+Release:	1
 License:	GPL v2
 Group:		Development/Tools
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/3.14/%{name}-%{version}.tar.xz
-# Source0-md5:	d4d7aae3cfb46cfff1c09894378ef4e0
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/3.16/%{name}-%{version}.tar.xz
+# Source0-md5:	ea69e7d33d8d05fa86a9ba43769aa2cd
 URL:		http://live.gnome.org/Gitg
 BuildRequires:	autoconf >= 2.64
 BuildRequires:	automake >= 1:1.11
-BuildRequires:	gettext-devel >= 0.17
+BuildRequires:	gettext-tools >= 0.17
 %{?with_glade:BuildRequires:	glade-devel >= 3.2}
 BuildRequires:	glib2-devel >= 1:2.38
 BuildRequires:	gobject-introspection-devel >= 0.10.1
 BuildRequires:	gsettings-desktop-schemas-devel
 BuildRequires:	gtk+3-devel >= 3.12.0
-BuildRequires:	gtk-webkit3-devel >= 2.2
+BuildRequires:	gtk-webkit4-devel >= 2.2
 BuildRequires:	gtksourceview3-devel >= 3.10
 BuildRequires:	gtkspell3-devel >= 3.0.3
 BuildRequires:	intltool >= 0.40.0
@@ -29,12 +29,13 @@ BuildRequires:	json-glib-devel
 BuildRequires:	libgee-devel >= 0.8
 # libgit2 with threading support
 BuildRequires:	libgit2-devel >= 0.20.0-3
-BuildRequires:	libgit2-glib-devel >= 0.0.20
+BuildRequires:	libgit2-glib-devel >= 0.22.0
 BuildRequires:	libpeas-devel >= 1.5.0
 BuildRequires:	libpeas-gtk-devel >= 1.5.0
+BuildRequires:	libsecret-devel
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	pkgconfig
-BuildRequires:	python3-devel >= 3.2.3
+BuildRequires:	python3-devel >= 1:3.2.3
 BuildRequires:	python3-pygobject3-devel >= 3.0.0
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(find_lang) >= 1.23
@@ -47,11 +48,11 @@ Requires(post,preun):	glib2 >= 1:2.38
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	glib2 >= 1:2.38
 Requires:	gtk+3 >= 3.12.0
-Requires:	gtk-webkit3 >= 2.2
+Requires:	gtk-webkit4 >= 2.2
 Requires:	gtksourceview3 >= 3.10
 Requires:	gtkspell3 >= 3.0.3
 Requires:	libgit2 >= 0.20.0-3
-Requires:	libgit2-glib >= 0.0.20
+Requires:	libgit2-glib >= 0.22.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -73,7 +74,7 @@ Requires:	%{name} = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.38
 Requires:	gtk+3-devel >= 3.12.0
 Requires:	libgit2-devel >= 0.20.0-3
-Requires:	libgit2-glib-devel >= 0.0.20
+Requires:	libgit2-glib-devel >= 0.22.0
 
 %description devel
 libgitg header files.
@@ -111,7 +112,7 @@ Summary:	Python 3.x binding to GitgExt library
 Summary(pl.UTF-8):	Wiązanie Pythona 3.x do biblioteki GitgExt
 Group:		Python/Libraries
 Requires:	%{name} = %{version}-%{release}
-BuildRequires:	python3-libs >= 3.2.3
+BuildRequires:	python3-libs >= 1:3.2.3
 BuildRequires:	python3-pygobject3 >= 3.0.0
 
 %description -n python3-gitg
@@ -201,7 +202,8 @@ fi
 %{_datadir}/glib-2.0/schemas/org.gnome.gitg.gschema.xml
 %{_desktopdir}/gitg.desktop
 %{_mandir}/man1/gitg.1*
-%{_iconsdir}/hicolor/*/apps/gitg.*
+%{_iconsdir}/hicolor/*x*/apps/gitg.png
+%{_iconsdir}/hicolor/scalable/apps/gitg-symbolic.svg
 
 %files devel
 %defattr(644,root,root,755)
