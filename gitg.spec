@@ -6,12 +6,13 @@
 Summary:	GTK+ git repository viewer
 Summary(pl.UTF-8):	Przeglądarka repozytoriów git oparta na GTK+
 Name:		gitg
-Version:	3.16.1
-Release:	2
+Version:	3.18.0
+Release:	1
 License:	GPL v2
 Group:		Development/Tools
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/3.16/%{name}-%{version}.tar.xz
-# Source0-md5:	ea69e7d33d8d05fa86a9ba43769aa2cd
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/3.18/%{name}-%{version}.tar.xz
+# Source0-md5:	9d656124955e01e6c3c07fd40415a779
+Patch0:		%{name}-build.patch
 URL:		http://live.gnome.org/Gitg
 BuildRequires:	autoconf >= 2.64
 BuildRequires:	automake >= 1:1.11
@@ -29,7 +30,7 @@ BuildRequires:	json-glib-devel
 BuildRequires:	libgee-devel >= 0.8
 # libgit2 with threading support
 BuildRequires:	libgit2-devel >= 0.20.0-3
-BuildRequires:	libgit2-glib-devel >= 0.22.0
+BuildRequires:	libgit2-glib-devel >= 0.23.5
 BuildRequires:	libpeas-devel >= 1.5.0
 BuildRequires:	libpeas-gtk-devel >= 1.5.0
 BuildRequires:	libsecret-devel
@@ -52,7 +53,7 @@ Requires:	gtk-webkit4 >= 2.2
 Requires:	gtksourceview3 >= 3.10
 Requires:	gtkspell3 >= 3.0.3
 Requires:	libgit2 >= 0.20.0-3
-Requires:	libgit2-glib >= 0.22.0
+Requires:	libgit2-glib >= 0.23.5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -74,7 +75,7 @@ Requires:	%{name} = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.38
 Requires:	gtk+3-devel >= 3.12.0
 Requires:	libgit2-devel >= 0.20.0-3
-Requires:	libgit2-glib-devel >= 0.22.0
+Requires:	libgit2-glib-devel >= 0.23.5
 
 %description devel
 libgitg header files.
@@ -138,6 +139,7 @@ API języka Vala do bibliotek Gitg.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %{__libtoolize}

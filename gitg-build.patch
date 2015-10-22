@@ -1,0 +1,11 @@
+--- gitg-3.18.0/libgitg-ext/Makefile.am.orig	2015-09-21 21:03:20.000000000 +0200
++++ gitg-3.18.0/libgitg-ext/Makefile.am	2015-10-22 19:41:53.871412341 +0200
+@@ -97,6 +97,8 @@
+ libgitg_ext_libgitg_ext_1_0_la_typelibdir = $(libdir)/girepository-1.0
+ libgitg_ext_libgitg_ext_1_0_la_typelib_DATA = GitgExt-1.0.typelib
+ 
++GitgExt-1.0.typelib:: Gitg-1.0.gir
++
+ if ENABLE_PYTHON
+ libgitg_ext_libgitg_ext_1_0_la_overridesdir = $(pyoverridesdir)
+ libgitg_ext_libgitg_ext_1_0_la_overrides_PYTHON = libgitg-ext/GitgExt.py
