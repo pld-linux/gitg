@@ -2,12 +2,12 @@
 # Conditional build:
 %bcond_without	static_libs	# static libraries
 %bcond_without	glade		# Glade catalog
-#
+
 Summary:	GTK+ git repository viewer
 Summary(pl.UTF-8):	Przeglądarka repozytoriów git oparta na GTK+
 Name:		gitg
 Version:	3.18.0
-Release:	2
+Release:	3
 License:	GPL v2
 Group:		Development/Tools
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/3.18/%{name}-%{version}.tar.xz
@@ -111,10 +111,10 @@ Plik katalogu libgitg dla Glade.
 %package -n python3-gitg
 Summary:	Python 3.x binding to GitgExt library
 Summary(pl.UTF-8):	Wiązanie Pythona 3.x do biblioteki GitgExt
-Group:		Python/Libraries
-Requires:	%{name} = %{version}-%{release}
+Group:		Libraries/Python
 BuildRequires:	python3-libs >= 1:3.2.3
 BuildRequires:	python3-pygobject3 >= 3.0.0
+Requires:	%{name} = %{version}-%{release}
 
 %description -n python3-gitg
 Python 3.x binding to GitgExt library, allowing to write Gitg plugins
@@ -130,6 +130,9 @@ Summary(pl.UTF-8):	API języka Vala do bibliotek Gitg
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	vala >= 2:0.20.1.23
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description -n vala-gitg
 Vala API for Gitg libraries.
