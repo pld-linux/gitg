@@ -6,12 +6,12 @@
 Summary:	GTK+ git repository viewer
 Summary(pl.UTF-8):	Przeglądarka repozytoriów git oparta na GTK+
 Name:		gitg
-Version:	3.18.0
-Release:	3
+Version:	3.20.0
+Release:	1
 License:	GPL v2
 Group:		Development/Tools
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/3.18/%{name}-%{version}.tar.xz
-# Source0-md5:	9d656124955e01e6c3c07fd40415a779
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/3.20/%{name}-%{version}.tar.xz
+# Source0-md5:	84a9ffee50c9a49aa781beffa18c835b
 Patch0:		%{name}-build.patch
 URL:		http://live.gnome.org/Gitg
 BuildRequires:	autoconf >= 2.64
@@ -21,7 +21,7 @@ BuildRequires:	gettext-tools >= 0.17
 BuildRequires:	glib2-devel >= 1:2.38
 BuildRequires:	gobject-introspection-devel >= 0.10.1
 BuildRequires:	gsettings-desktop-schemas-devel
-BuildRequires:	gtk+3-devel >= 3.12.0
+BuildRequires:	gtk+3-devel >= 3.20.0
 BuildRequires:	gtk-webkit4-devel >= 2.2
 BuildRequires:	gtksourceview3-devel >= 3.10
 BuildRequires:	gtkspell3-devel >= 3.0.3
@@ -30,10 +30,11 @@ BuildRequires:	json-glib-devel
 BuildRequires:	libgee-devel >= 0.8
 # libgit2 with threading support
 BuildRequires:	libgit2-devel >= 0.20.0-3
-BuildRequires:	libgit2-glib-devel >= 0.23.5
+BuildRequires:	libgit2-glib-devel >= 0.24.0
 BuildRequires:	libpeas-devel >= 1.5.0
 BuildRequires:	libpeas-gtk-devel >= 1.5.0
 BuildRequires:	libsecret-devel
+BuildRequires:	libsoup-devel
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	pkgconfig
 BuildRequires:	python3-devel >= 1:3.2.3
@@ -42,18 +43,18 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.596
 BuildRequires:	tar >= 1:1.22
-BuildRequires:	vala >= 2:0.20.1.23
+BuildRequires:	vala >= 2:0.32.0
 BuildRequires:	xz
 Requires(post,postun):	desktop-file-utils
 Requires(post,preun):	glib2 >= 1:2.38
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	glib2 >= 1:2.38
-Requires:	gtk+3 >= 3.12.0
+Requires:	gtk+3 >= 3.20.0
 Requires:	gtk-webkit4 >= 2.2
 Requires:	gtksourceview3 >= 3.10
 Requires:	gtkspell3 >= 3.0.3
 Requires:	libgit2 >= 0.20.0-3
-Requires:	libgit2-glib >= 0.23.5
+Requires:	libgit2-glib >= 0.24.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -73,9 +74,9 @@ Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libgitg
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.38
-Requires:	gtk+3-devel >= 3.12.0
+Requires:	gtk+3-devel >= 3.20.0
 Requires:	libgit2-devel >= 0.20.0-3
-Requires:	libgit2-glib-devel >= 0.23.5
+Requires:	libgit2-glib-devel >= 0.24.0
 
 %description devel
 libgitg header files.
@@ -147,7 +148,7 @@ API języka Vala do bibliotek Gitg.
 %build
 %{__libtoolize}
 %{__intltoolize}
-%{__aclocal} -I m4 -I libgd
+%{__aclocal} -I m4
 %{__autoconf}
 %{__autoheader}
 %{__automake}
