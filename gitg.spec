@@ -6,12 +6,12 @@
 Summary:	GTK+ git repository viewer
 Summary(pl.UTF-8):	Przeglądarka repozytoriów git oparta na GTK+
 Name:		gitg
-Version:	3.20.0
+Version:	3.20.1
 Release:	1
 License:	GPL v2
 Group:		Development/Tools
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/3.20/%{name}-%{version}.tar.xz
-# Source0-md5:	84a9ffee50c9a49aa781beffa18c835b
+# Source0-md5:	90d4b599fc373d59f29b2355f09aa5a4
 Patch0:		%{name}-build.patch
 URL:		http://live.gnome.org/Gitg
 BuildRequires:	autoconf >= 2.64
@@ -19,6 +19,7 @@ BuildRequires:	automake >= 1:1.11
 BuildRequires:	gettext-tools >= 0.17
 %{?with_glade:BuildRequires:	glade-devel >= 3.2}
 BuildRequires:	glib2-devel >= 1:2.38
+BuildRequires:	gnome-common
 BuildRequires:	gobject-introspection-devel >= 0.10.1
 BuildRequires:	gsettings-desktop-schemas-devel
 BuildRequires:	gtk+3-devel >= 3.20.0
@@ -34,8 +35,9 @@ BuildRequires:	libgit2-glib-devel >= 0.24.0
 BuildRequires:	libpeas-devel >= 1.5.0
 BuildRequires:	libpeas-gtk-devel >= 1.5.0
 BuildRequires:	libsecret-devel
-BuildRequires:	libsoup-devel
+BuildRequires:	libsoup-devel >= 2.4
 BuildRequires:	libtool >= 2:2.2
+BuildRequires:	libxml2-devel >= 1:2.9.0
 BuildRequires:	pkgconfig
 BuildRequires:	python3-devel >= 1:3.2.3
 BuildRequires:	python3-pygobject3-devel >= 3.0.0
@@ -44,6 +46,9 @@ BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.596
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 2:0.32.0
+BuildRequires:	vala-libgee >= 0.8
+BuildRequires:	vala-libgit2-glib >= 0.24.0
+BuildRequires:	vala-libsecret
 BuildRequires:	xz
 Requires(post,postun):	desktop-file-utils
 Requires(post,preun):	glib2 >= 1:2.38
@@ -130,7 +135,7 @@ Summary:	Vala API for Gitg libraries
 Summary(pl.UTF-8):	API języka Vala do bibliotek Gitg
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
-Requires:	vala >= 2:0.20.1.23
+Requires:	vala >= 2:0.32
 %if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
 %endif
