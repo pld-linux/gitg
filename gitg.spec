@@ -6,12 +6,12 @@
 Summary:	GTK+ git repository viewer
 Summary(pl.UTF-8):	Przeglądarka repozytoriów git oparta na GTK+
 Name:		gitg
-Version:	3.22.0
-Release:	2
+Version:	3.24.0
+Release:	1
 License:	GPL v2
 Group:		Development/Tools
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/3.22/%{name}-%{version}.tar.xz
-# Source0-md5:	8c60cc7d11769f1ae0b27fbe986c545e
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/3.24/%{name}-%{version}.tar.xz
+# Source0-md5:	ee4e11a4f62298c59165bdf003924348
 Patch0:		%{name}-build.patch
 URL:		http://live.gnome.org/Gitg
 BuildRequires:	autoconf >= 2.64
@@ -31,7 +31,7 @@ BuildRequires:	json-glib-devel
 BuildRequires:	libgee-devel >= 0.8
 # libgit2 with threading support
 BuildRequires:	libgit2-devel >= 0.20.0-3
-BuildRequires:	libgit2-glib-devel >= 0.24.4
+BuildRequires:	libgit2-glib-devel >= 0.25.0
 BuildRequires:	libpeas-devel >= 1.5.0
 BuildRequires:	libpeas-gtk-devel >= 1.5.0
 BuildRequires:	libsecret-devel
@@ -47,7 +47,7 @@ BuildRequires:	rpmbuild(macros) >= 1.596
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 2:0.32.0
 BuildRequires:	vala-libgee >= 0.8
-BuildRequires:	vala-libgit2-glib >= 0.24.4
+BuildRequires:	vala-libgit2-glib >= 0.25.0
 BuildRequires:	vala-libsecret
 BuildRequires:	xz
 Requires(post,postun):	desktop-file-utils
@@ -59,7 +59,7 @@ Requires:	gtk-webkit4 >= 2.2
 Requires:	gtksourceview3 >= 3.10
 Requires:	gtkspell3 >= 3.0.3
 Requires:	libgit2 >= 0.20.0-3
-Requires:	libgit2-glib >= 0.24.4
+Requires:	libgit2-glib >= 0.25.0
 Requires:	libxml2 >= 1:2.9.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -82,7 +82,7 @@ Requires:	%{name} = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.38
 Requires:	gtk+3-devel >= 3.20.0
 Requires:	libgit2-devel >= 0.20.0-3
-Requires:	libgit2-glib-devel >= 0.24.4
+Requires:	libgit2-glib-devel >= 0.25.0
 
 %description devel
 libgitg header files.
