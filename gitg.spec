@@ -1,21 +1,18 @@
 #
 # Conditional build:
-%bcond_without	static_libs	# static libraries
 %bcond_without	glade		# Glade catalog
 
 Summary:	GTK+ git repository viewer
 Summary(pl.UTF-8):	Przeglądarka repozytoriów git oparta na GTK+
 Name:		gitg
-Version:	3.26.0
+Version:	3.30.1
 Release:	1
 License:	GPL v2
 Group:		Development/Tools
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/3.26/%{name}-%{version}.tar.xz
-# Source0-md5:	099dad2d598e1420bbe451adb0e97fd5
-Patch0:		%{name}-build.patch
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/3.30/%{name}-%{version}.tar.xz
+# Source0-md5:	b0f5b0104b76279488ef12c70135ad75
+Patch0:		%{name}-vala.patch
 URL:		http://live.gnome.org/Gitg
-BuildRequires:	autoconf >= 2.64
-BuildRequires:	automake >= 1:1.11
 BuildRequires:	gettext-tools >= 0.17
 %{?with_glade:BuildRequires:	glade-devel >= 3.2}
 BuildRequires:	glib2-devel >= 1:2.38
@@ -36,16 +33,18 @@ BuildRequires:	libpeas-devel >= 1.5.0
 BuildRequires:	libpeas-gtk-devel >= 1.5.0
 BuildRequires:	libsecret-devel
 BuildRequires:	libsoup-devel >= 2.4
-BuildRequires:	libtool >= 2:2.2
 BuildRequires:	libxml2-devel >= 1:2.9.0
+BuildRequires:	meson >= 0.46.0
+BuildRequires:	ninja
 BuildRequires:	pkgconfig
 BuildRequires:	python3-devel >= 1:3.2.3
 BuildRequires:	python3-pygobject3-devel >= 3.0.0
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(find_lang) >= 1.23
-BuildRequires:	rpmbuild(macros) >= 1.596
+BuildRequires:	rpmbuild(macros) >= 1.727
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 2:0.32.0
+BuildRequires:	vala-gtkspell3
 BuildRequires:	vala-libgee >= 0.8
 BuildRequires:	vala-libgit2-glib >= 0.25.0
 BuildRequires:	vala-libsecret
@@ -61,6 +60,7 @@ Requires:	gtkspell3 >= 3.0.3
 Requires:	libgit2 >= 0.20.0-3
 Requires:	libgit2-glib >= 0.25.0
 Requires:	libxml2 >= 1:2.9.0
+Obsoletes:	gitg-static < 3.30.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -89,18 +89,6 @@ libgitg header files.
 
 %description devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki libgitg.
-
-%package static
-Summary:	libgitg static library
-Summary(pl.UTF-8):	Biblioteka statyczna libgitg
-Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
-
-%description static
-libgitg static library.
-
-%description static -l pl.UTF-8
-Biblioteka statyczna libgitg.
 
 %package glade
 Summary:	libgitg catalog file for Glade
@@ -152,29 +140,15 @@ API języka Vala do bibliotek Gitg.
 %patch0 -p1
 
 %build
-%{__libtoolize}
-%{__intltoolize}
-%{__aclocal} -I m4
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-%configure \
-	%{?with_glade:--enable-glade-catalog} \
-	--disable-silent-rules \
-	%{?with_static_libs:--enable-static}
-%{__make}
+%meson build \
+	-Dglade_catalog=%{__true_false glade} \
+	-Dpython=true
+%meson_build -C build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
-
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/libgitg-*.la \
-	$RPM_BUILD_ROOT%{_libdir}/gitg/plugins/*.la
-%if %{with static_libs}
-%{__rm}	$RPM_BUILD_ROOT%{_libdir}/gitg/plugins/*.a
-%endif
+%meson_install -C build
 
 %find_lang gitg
 
@@ -210,7 +184,7 @@ fi
 %attr(755,root,root) %{_libdir}/gitg/plugins/libfiles.so
 %{_libdir}/gitg/plugins/files.plugin
 %{_datadir}/gitg
-%{_datadir}/appdata/gitg.appdata.xml
+%{_datadir}/metainfo/gitg.appdata.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.gitg.gschema.xml
 %{_desktopdir}/gitg.desktop
 %{_mandir}/man1/gitg.1*
@@ -221,19 +195,12 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgitg-1.0.so
 %attr(755,root,root) %{_libdir}/libgitg-ext-1.0.so
-%{_includedir}/libgitg-1.0
-%{_includedir}/libgitg-ext-1.0
+%{_includedir}/libgitg.h
+%{_includedir}/libgitg-ext.h
 %{_datadir}/gir-1.0/Gitg-1.0.gir
 %{_datadir}/gir-1.0/GitgExt-1.0.gir
 %{_pkgconfigdir}/libgitg-1.0.pc
 %{_pkgconfigdir}/libgitg-ext-1.0.pc
-
-%if %{with static_libs}
-%files static
-%defattr(644,root,root,755)
-%{_libdir}/libgitg-1.0.a
-%{_libdir}/libgitg-ext-1.0.a
-%endif
 
 %if %{with glade}
 %files glade
@@ -244,7 +211,6 @@ fi
 %files -n python3-gitg
 %defattr(644,root,root,755)
 %{py3_sitedir}/gi/overrides/GitgExt.py
-%{py3_sitedir}/gi/overrides/__pycache__/GitgExt.cpython-*.py[co]
 
 %files -n vala-gitg
 %defattr(644,root,root,755)
