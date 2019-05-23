@@ -5,13 +5,12 @@
 Summary:	GTK+ git repository viewer
 Summary(pl.UTF-8):	Przeglądarka repozytoriów git oparta na GTK+
 Name:		gitg
-Version:	3.30.1
+Version:	3.32.0
 Release:	1
 License:	GPL v2
 Group:		Development/Tools
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/3.30/%{name}-%{version}.tar.xz
-# Source0-md5:	b0f5b0104b76279488ef12c70135ad75
-Patch0:		%{name}-vala.patch
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/3.32/%{name}-%{version}.tar.xz
+# Source0-md5:	a9bee0a3a8ec6c96fbb5e084807f9316
 URL:		http://live.gnome.org/Gitg
 BuildRequires:	gettext-tools >= 0.17
 %{?with_glade:BuildRequires:	glade-devel >= 3.2}
@@ -23,18 +22,18 @@ BuildRequires:	gtk+3-devel >= 3.20.0
 BuildRequires:	gtk-webkit4-devel >= 2.2
 BuildRequires:	gtksourceview3-devel >= 3.10
 BuildRequires:	gtkspell3-devel >= 3.0.3
-BuildRequires:	intltool >= 0.40.0
 BuildRequires:	json-glib-devel
+BuildRequires:	libdazzle-devel
 BuildRequires:	libgee-devel >= 0.8
 # libgit2 with threading support
 BuildRequires:	libgit2-devel >= 0.20.0-3
-BuildRequires:	libgit2-glib-devel >= 0.25.0
+BuildRequires:	libgit2-glib-devel >= 0.27.8
 BuildRequires:	libpeas-devel >= 1.5.0
 BuildRequires:	libpeas-gtk-devel >= 1.5.0
 BuildRequires:	libsecret-devel
 BuildRequires:	libsoup-devel >= 2.4
 BuildRequires:	libxml2-devel >= 1:2.9.0
-BuildRequires:	meson >= 0.46.0
+BuildRequires:	meson >= 0.48.0
 BuildRequires:	ninja
 BuildRequires:	pkgconfig
 BuildRequires:	python3-devel >= 1:3.2.3
@@ -46,7 +45,7 @@ BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 2:0.32.0
 BuildRequires:	vala-gtkspell3
 BuildRequires:	vala-libgee >= 0.8
-BuildRequires:	vala-libgit2-glib >= 0.25.0
+BuildRequires:	vala-libgit2-glib >= 0.27.8
 BuildRequires:	vala-libsecret
 BuildRequires:	xz
 Requires(post,postun):	desktop-file-utils
@@ -58,7 +57,7 @@ Requires:	gtk-webkit4 >= 2.2
 Requires:	gtksourceview3 >= 3.10
 Requires:	gtkspell3 >= 3.0.3
 Requires:	libgit2 >= 0.20.0-3
-Requires:	libgit2-glib >= 0.25.0
+Requires:	libgit2-glib >= 0.27.8
 Requires:	libxml2 >= 1:2.9.0
 Obsoletes:	gitg-static < 3.30.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -82,7 +81,7 @@ Requires:	%{name} = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.38
 Requires:	gtk+3-devel >= 3.20.0
 Requires:	libgit2-devel >= 0.20.0-3
-Requires:	libgit2-glib-devel >= 0.25.0
+Requires:	libgit2-glib-devel >= 0.27.8
 
 %description devel
 libgitg header files.
@@ -137,7 +136,6 @@ API języka Vala do bibliotek Gitg.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 %meson build \
@@ -169,7 +167,7 @@ fi
 
 %files -f gitg.lang
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog NEWS README
+%doc AUTHORS ChangeLog NEWS README.md
 %attr(755,root,root) %{_bindir}/gitg
 %attr(755,root,root) %{_libdir}/libgitg-1.0.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libgitg-1.0.so.0
@@ -184,19 +182,23 @@ fi
 %attr(755,root,root) %{_libdir}/gitg/plugins/libfiles.so
 %{_libdir}/gitg/plugins/files.plugin
 %{_datadir}/gitg
-%{_datadir}/metainfo/gitg.appdata.xml
+%{_datadir}/metainfo/org.gnome.gitg.appdata.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.gitg.gschema.xml
-%{_desktopdir}/gitg.desktop
+%{_desktopdir}/org.gnome.gitg.desktop
 %{_mandir}/man1/gitg.1*
-%{_iconsdir}/hicolor/*x*/apps/gitg.png
-%{_iconsdir}/hicolor/scalable/apps/gitg-symbolic.svg
+%{_iconsdir}/hicolor/*x*/apps/org.gnome.gitg.png
+%{_iconsdir}/hicolor/scalable/apps/org.gnome.gitg-symbolic.svg
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libgitg-1.0.so
 %attr(755,root,root) %{_libdir}/libgitg-ext-1.0.so
-%{_includedir}/libgitg.h
-%{_includedir}/libgitg-ext.h
+%dir %{_includedir}/libgitg-1.0
+%dir %{_includedir}/libgitg-1.0/libgitg
+%{_includedir}/libgitg-1.0/libgitg/libgitg.h
+%dir %{_includedir}/libgitg-ext-1.0
+%dir %{_includedir}/libgitg-ext-1.0/libgitg-ext
+%{_includedir}/libgitg-ext-1.0/libgitg-ext/libgitg-ext.h
 %{_datadir}/gir-1.0/Gitg-1.0.gir
 %{_datadir}/gir-1.0/GitgExt-1.0.gir
 %{_pkgconfigdir}/libgitg-1.0.pc
