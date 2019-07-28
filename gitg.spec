@@ -11,36 +11,32 @@ License:	GPL v2
 Group:		Development/Tools
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/3.32/%{name}-%{version}.tar.xz
 # Source0-md5:	da45a04be28d23638d020a7155d28343
-URL:		http://live.gnome.org/Gitg
+URL:		https://wiki.gnome.org/Apps/Gitg
 BuildRequires:	gettext-tools >= 0.17
 %{?with_glade:BuildRequires:	glade-devel >= 3.2}
 BuildRequires:	glib2-devel >= 1:2.38
-BuildRequires:	gnome-common
 BuildRequires:	gobject-introspection-devel >= 0.10.1
 BuildRequires:	gsettings-desktop-schemas-devel
 BuildRequires:	gtk+3-devel >= 3.20.0
-BuildRequires:	gtk-webkit4-devel >= 2.2
 BuildRequires:	gtksourceview3-devel >= 3.10
 BuildRequires:	gtkspell3-devel >= 3.0.3
-BuildRequires:	json-glib-devel
 BuildRequires:	libdazzle-devel
 BuildRequires:	libgee-devel >= 0.8
 # libgit2 with threading support
 BuildRequires:	libgit2-devel >= 0.20.0-3
 BuildRequires:	libgit2-glib-devel >= 0.27.8
 BuildRequires:	libpeas-devel >= 1.5.0
-BuildRequires:	libpeas-gtk-devel >= 1.5.0
 BuildRequires:	libsecret-devel
 BuildRequires:	libsoup-devel >= 2.4
 BuildRequires:	libxml2-devel >= 1:2.9.0
 BuildRequires:	meson >= 0.48.0
-BuildRequires:	ninja
+BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	python3-devel >= 1:3.2.3
 BuildRequires:	python3-pygobject3-devel >= 3.0.0
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(find_lang) >= 1.23
-BuildRequires:	rpmbuild(macros) >= 1.727
+BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 2:0.32.0
 BuildRequires:	vala-gtkspell3
@@ -54,7 +50,6 @@ Requires(post,preun):	glib2 >= 1:2.38
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	glib2 >= 1:2.38
 Requires:	gtk+3 >= 3.20.0
-Requires:	gtk-webkit4 >= 2.2
 Requires:	gtksourceview3 >= 3.10
 Requires:	gtkspell3 >= 3.0.3
 Requires:	libgit2 >= 0.20.0-3
@@ -81,6 +76,7 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.38
 Requires:	gtk+3-devel >= 3.20.0
+Requires:	libgee-devel >= 0.8
 Requires:	libgit2-devel >= 0.20.0-3
 Requires:	libgit2-glib-devel >= 0.27.8
 
@@ -107,8 +103,8 @@ Plik katalogu libgitg dla Glade.
 Summary:	Python 3.x binding to GitgExt library
 Summary(pl.UTF-8):	Wiązanie Pythona 3.x do biblioteki GitgExt
 Group:		Libraries/Python
-BuildRequires:	python3-libs >= 1:3.2.3
-BuildRequires:	python3-pygobject3 >= 3.0.0
+Requires:	python3-libs >= 1:3.2.3
+Requires:	python3-pygobject3 >= 3.0.0
 Requires:	%{name} = %{version}-%{release}
 
 %description -n python3-gitg
@@ -142,12 +138,14 @@ API języka Vala do bibliotek Gitg.
 %meson build \
 	-Dglade_catalog=%{__true_false glade} \
 	-Dpython=true
-%meson_build -C build
+# -Ddocs=true is nop (as of 3.32.1)
+
+%ninja_build -C build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%meson_install -C build
+%ninja_install -C build
 
 %find_lang gitg
 
