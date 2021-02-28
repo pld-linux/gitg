@@ -121,9 +121,7 @@ Summary(pl.UTF-8):	API języka Vala do bibliotek Gitg
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	vala >= 2:0.32
-%if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
-%endif
 
 %description -n vala-gitg
 Vala API for Gitg libraries.
