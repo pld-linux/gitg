@@ -6,7 +6,7 @@ Summary:	GTK+ git repository viewer
 Summary(pl.UTF-8):	Przeglądarka repozytoriów git oparta na GTK+
 Name:		gitg
 Version:	3.32.1
-Release:	4
+Release:	5
 License:	GPL v2
 Group:		Development/Tools
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/3.32/%{name}-%{version}.tar.xz
