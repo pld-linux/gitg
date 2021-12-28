@@ -5,26 +5,27 @@
 Summary:	GTK+ git repository viewer
 Summary(pl.UTF-8):	Przeglądarka repozytoriów git oparta na GTK+
 Name:		gitg
-Version:	3.32.1
-Release:	5
+Version:	41
+Release:	1
 License:	GPL v2
 Group:		Development/Tools
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gitg/3.32/%{name}-%{version}.tar.xz
-# Source0-md5:	da45a04be28d23638d020a7155d28343
+Source0:	https://download.gnome.org/sources/gitg/41/%{name}-%{version}.tar.xz
+# Source0-md5:	ce7df0f2ce36488291444537df86936d
 URL:		https://wiki.gnome.org/Apps/Gitg
 BuildRequires:	gettext-tools >= 0.17
 %{?with_glade:BuildRequires:	glade-devel >= 3.2}
-BuildRequires:	glib2-devel >= 1:2.38
+BuildRequires:	glib2-devel >= 1:2.68
 BuildRequires:	gobject-introspection-devel >= 0.10.1
 BuildRequires:	gsettings-desktop-schemas-devel
+BuildRequires:	gspell-devel >= 1.8.1
 BuildRequires:	gtk+3-devel >= 3.20.0
-BuildRequires:	gtksourceview3-devel >= 3.10
-BuildRequires:	gtkspell3-devel >= 3.0.3
+BuildRequires:	gtksourceview4-devel >= 4.0.3
+BuildRequires:	json-glib-devel
 BuildRequires:	libdazzle-devel
 BuildRequires:	libgee-devel >= 0.8
 # libgit2 with threading support
 BuildRequires:	libgit2-devel >= 0.20.0-3
-BuildRequires:	libgit2-glib-devel >= 0.27.8
+BuildRequires:	libgit2-glib-devel >= 1.0.0
 BuildRequires:	libpeas-devel >= 1.5.0
 BuildRequires:	libsecret-devel
 BuildRequires:	libsoup-devel >= 2.4
@@ -39,21 +40,21 @@ BuildRequires:	rpmbuild(find_lang) >= 1.23
 BuildRequires:	rpmbuild(macros) >= 1.736
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 2:0.32.0
-BuildRequires:	vala-gtkspell3
+BuildRequires:	vala-gspell >= 1.8.1
 BuildRequires:	vala-libdazzle
 BuildRequires:	vala-libgee >= 0.8
-BuildRequires:	vala-libgit2-glib >= 0.27.8
+BuildRequires:	vala-libgit2-glib >= 1.0.0
 BuildRequires:	vala-libsecret
 BuildRequires:	xz
 Requires(post,postun):	desktop-file-utils
-Requires(post,preun):	glib2 >= 1:2.38
+Requires(post,preun):	glib2 >= 1:2.68
 Requires(post,postun):	gtk-update-icon-cache
-Requires:	glib2 >= 1:2.38
+Requires:	glib2 >= 1:2.68
+Requires:	gspell >= 1.8.1
 Requires:	gtk+3 >= 3.20.0
-Requires:	gtksourceview3 >= 3.10
-Requires:	gtkspell3 >= 3.0.3
+Requires:	gtksourceview4 >= 4.0.3
 Requires:	libgit2 >= 0.20.0-3
-Requires:	libgit2-glib >= 0.27.8
+Requires:	libgit2-glib >= 1.0.0
 Requires:	libxml2 >= 1:2.9.0
 Obsoletes:	gitg-static < 3.30.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -74,11 +75,11 @@ Summary:	libgitg header files
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libgitg
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.38
+Requires:	glib2-devel >= 1:2.68
 Requires:	gtk+3-devel >= 3.20.0
 Requires:	libgee-devel >= 0.8
 Requires:	libgit2-devel >= 0.20.0-3
-Requires:	libgit2-glib-devel >= 0.27.8
+Requires:	libgit2-glib-devel >= 1.0.0
 
 %description devel
 libgitg header files.
@@ -183,7 +184,7 @@ fi
 %{_datadir}/glib-2.0/schemas/org.gnome.gitg.gschema.xml
 %{_desktopdir}/org.gnome.gitg.desktop
 %{_mandir}/man1/gitg.1*
-%{_iconsdir}/hicolor/*x*/apps/org.gnome.gitg.png
+%{_iconsdir}/hicolor/scalable/apps/org.gnome.gitg.svg
 %{_iconsdir}/hicolor/scalable/apps/org.gnome.gitg-symbolic.svg
 
 %files devel
