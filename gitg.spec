@@ -6,7 +6,7 @@ Summary:	GTK+ git repository viewer
 Summary(pl.UTF-8):	Przeglądarka repozytoriów git oparta na GTK+
 Name:		gitg
 Version:	41
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Development/Tools
 Source0:	https://download.gnome.org/sources/gitg/41/%{name}-%{version}.tar.xz
