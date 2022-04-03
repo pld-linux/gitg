@@ -11,6 +11,7 @@ License:	GPL v2
 Group:		Development/Tools
 Source0:	https://download.gnome.org/sources/gitg/41/%{name}-%{version}.tar.xz
 # Source0-md5:	ce7df0f2ce36488291444537df86936d
+Patch0:		meson0.60.patch
 URL:		https://wiki.gnome.org/Apps/Gitg
 BuildRequires:	gettext-tools >= 0.17
 %{?with_glade:BuildRequires:	glade-devel >= 3.2}
@@ -133,6 +134,7 @@ API języka Vala do bibliotek Gitg.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %meson build \
@@ -211,7 +213,7 @@ fi
 
 %files -n python3-gitg
 %defattr(644,root,root,755)
-%{py3_sitedir}/gi/overrides/GitgExt.py
+%{py3_sitescriptdir}/gi/overrides/GitgExt.py
 
 %files -n vala-gitg
 %defattr(644,root,root,755)

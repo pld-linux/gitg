@@ -1,0 +1,18 @@
+--- gitg-41/data/meson.build~	2021-12-27 14:02:54.000000000 +0100
++++ gitg-41/data/meson.build	2022-04-03 21:41:19.936484001 +0200
+@@ -6,7 +6,6 @@
+ desktop_config.set('icon', application_id)
+ desktop_config.set('binary', gitg_name)
+ i18n.merge_file(
+-  desktop,
+   type: 'desktop',
+   input: configure_file(
+     input: desktop + '.in.in',
+@@ -42,7 +41,6 @@
+ appdata_config.set('app-id', application_id)
+ appdata_config.set('gettext', gitg_name)
+ i18n.merge_file(
+-  appdata,
+   type: 'xml',
+   input: configure_file(
+     input: appdata + '.in.in',
