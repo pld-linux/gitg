@@ -5,17 +5,17 @@
 Summary:	GTK+ git repository viewer
 Summary(pl.UTF-8):	Przeglądarka repozytoriów git oparta na GTK+
 Name:		gitg
-Version:	41
-Release:	3
+Version:	44
+Release:	1
 License:	GPL v2
 Group:		Development/Tools
-Source0:	https://download.gnome.org/sources/gitg/41/%{name}-%{version}.tar.xz
-# Source0-md5:	ce7df0f2ce36488291444537df86936d
-Patch0:		meson0.60.patch
+Source0:	https://download.gnome.org/sources/gitg/44/%{name}-%{version}.tar.xz
+# Source0-md5:	b16d985d2a42834588bc504464741206
 URL:		https://wiki.gnome.org/Apps/Gitg
 BuildRequires:	gettext-tools >= 0.17
 %{?with_glade:BuildRequires:	glade-devel >= 3.2}
 BuildRequires:	glib2-devel >= 1:2.68
+BuildRequires:	gpgme-devel
 BuildRequires:	gobject-introspection-devel >= 0.10.1
 BuildRequires:	gsettings-desktop-schemas-devel
 BuildRequires:	gspell-devel >= 1.8.1
@@ -26,12 +26,14 @@ BuildRequires:	libdazzle-devel
 BuildRequires:	libgee-devel >= 0.8
 # libgit2 with threading support
 BuildRequires:	libgit2-devel >= 0.20.0-3
-BuildRequires:	libgit2-glib-devel >= 1.0.0
+BuildRequires:	libgit2-glib-devel >= 1.1.0
+BuildRequires:	libhandy1-devel >= 1.5.0
 BuildRequires:	libpeas-devel >= 1.5.0
 BuildRequires:	libsecret-devel
 BuildRequires:	libsoup-devel >= 2.4
 BuildRequires:	libxml2-devel >= 1:2.9.0
-BuildRequires:	meson >= 0.48.0
+# >= 0.50.0 < 1.2.0 or 1.2.2+
+BuildRequires:	meson >= 1.2.1-2
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	python3-devel >= 1:3.2.3
@@ -45,7 +47,8 @@ BuildRequires:	vala >= 2:0.32.0
 BuildRequires:	vala-gspell >= 1.8.1
 BuildRequires:	vala-libdazzle
 BuildRequires:	vala-libgee >= 0.8
-BuildRequires:	vala-libgit2-glib >= 1.0.0
+BuildRequires:	vala-libgit2-glib >= 1.1.0
+BuildRequires:	vala-libhandy1 >= 1.5.0
 BuildRequires:	vala-libsecret
 BuildRequires:	xz
 Requires(post,postun):	desktop-file-utils
@@ -56,10 +59,14 @@ Requires:	gspell >= 1.8.1
 Requires:	gtk+3 >= 3.20.0
 Requires:	gtksourceview4 >= 4.0.3
 Requires:	libgit2 >= 0.20.0-3
-Requires:	libgit2-glib >= 1.0.0
+Requires:	libgit2-glib >= 1.1.0
+Requires:	libhandy1 >= 1.5.0
 Requires:	libxml2 >= 1:2.9.0
 Obsoletes:	gitg-static < 3.30.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+# must be consistent with python-pygobject3.spec because of "..overrides" and "..importer" imports
+%define		py3_gi_overridesdir	%{py3_sitedir}/gi/overrides
 
 %description
 gitg is a git repository viewer targeting GTK+/GNOME. One of its main
@@ -78,6 +85,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libgitg
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.68
+Requires:	gpgme-devel
 Requires:	gtk+3-devel >= 3.20.0
 Requires:	libgee-devel >= 0.8
 Requires:	libgit2-devel >= 0.20.0-3
@@ -134,12 +142,15 @@ API języka Vala do bibliotek Gitg.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
+# python.purelibdir changed to place overrides file properly
+# (possible only because there are no other system-wide python modules installed)
 %meson build \
 	-Dglade_catalog=%{__true_false glade} \
-	-Dpython=true
+	-Dpython=true \
+	-Dpython.bytecompile=2 \
+	-Dpython.purelibdir=%{py3_sitedir}
 # -Ddocs=true is nop (as of 3.32.1)
 
 %ninja_build -C build
@@ -213,7 +224,8 @@ fi
 
 %files -n python3-gitg
 %defattr(644,root,root,755)
-%{py3_sitescriptdir}/gi/overrides/GitgExt.py
+%{py3_gi_overridesdir}/GitgExt.py
+%{py3_gi_overridesdir}/__pycache__/GitgExt.cpython-*.py[co]
 
 %files -n vala-gitg
 %defattr(644,root,root,755)
