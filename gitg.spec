@@ -41,7 +41,7 @@ BuildRequires:	python3-pygobject3-devel >= 3.0.0
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(find_lang) >= 1.23
-BuildRequires:	rpmbuild(macros) >= 1.736
+BuildRequires:	rpmbuild(macros) >= 2.042
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 2:0.32.0
 BuildRequires:	vala-gspell >= 1.8.1
@@ -146,19 +146,19 @@ API języka Vala do bibliotek Gitg.
 %build
 # python.purelibdir changed to place overrides file properly
 # (possible only because there are no other system-wide python modules installed)
-%meson build \
+%meson \
 	-Dglade_catalog=%{__true_false glade} \
 	-Dpython=true \
 	-Dpython.bytecompile=2 \
 	-Dpython.purelibdir=%{py3_sitedir}
 # -Ddocs=true is nop (as of 3.32.1)
 
-%ninja_build -C build
+%meson_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%ninja_install -C build
+%meson_install
 
 %find_lang gitg
 
